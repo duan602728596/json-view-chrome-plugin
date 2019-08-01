@@ -1,0 +1,36 @@
+manifest_version: 2
+name: json-view-chrome-plugin
+version: 0.0.1
+description: 格式化JSON。
+author: 段昊辰
+
+# 图标
+icons:
+  16: images/icon_32x32.png
+  48: images/icon_96x96.png
+  128: images/icon_256x256.png
+
+# 权限
+permissions:
+  - tabs
+  - '*://*/'
+
+# 导航栏
+browser_action:
+  default_title: JSON格式化
+  default_icon:
+    19: images/default-icon_38x38.png
+    38: images/default-icon_76x76.png
+  default_popup: templates/popup.html
+
+# 前端脚本注入
+content_scripts:
+  - matches:
+      - <all_urls>
+    js:
+      - scripts/react.js
+      - scripts/react-dom.js
+      - scripts/content.js
+    css:
+      - styles/content.css
+    run_at: document_end
