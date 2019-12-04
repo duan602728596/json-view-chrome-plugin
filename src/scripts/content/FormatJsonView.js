@@ -59,7 +59,7 @@ function FormatJsonView(props) {
       </div>
       {/* 返回顶部 */}
       <button className="content-go-to-top-btn" type="button" title="返回顶部" onClick={ handleGoToTopClick }>
-        <img className="content-go-to-top-svg" src={ require('../../images/go-to-top.svg') } />
+        <img className="content-go-to-top-svg" src={ require('../../images/go-to-top.svg').default } />
       </button>
     </Fragment>
   );
