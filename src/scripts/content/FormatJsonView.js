@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import JsonView from 'react-json-view';
+import style from '../../styles/content.css';
 
 function FormatJsonView(props) {
   const { json } = props;
@@ -18,7 +19,7 @@ function FormatJsonView(props) {
   function handleValueMouseOut(event) {
     const e = event.target;
 
-    e.classList.remove('content-link');
+    e.classList.remove(style.link);
     e.removeEventListener('click', handleOpenNewTargetClick, false);
     e.removeEventListener('mouseout', handleValueMouseOut, false);
   }
@@ -33,7 +34,7 @@ function FormatJsonView(props) {
 
     if (!/^"(?:https?:)?\/\/.+"$/.test(text)) return;
 
-    e.classList.add('content-link');
+    e.classList.add(style.link);
     e.addEventListener('click', handleOpenNewTargetClick, false);
     e.addEventListener('mouseout', handleValueMouseOut, false);
   }
@@ -58,8 +59,8 @@ function FormatJsonView(props) {
         />
       </div>
       {/* 返回顶部 */}
-      <button className="content-go-to-top-btn" type="button" title="返回顶部" onClick={ handleGoToTopClick }>
-        <img className="content-go-to-top-svg" src={ require('../../images/go-to-top.svg').default } />
+      <button className={ style.goToTopBtn } type="button" title="返回顶部" onClick={ handleGoToTopClick }>
+        <img className={ style.goToTopSvg } src={ require('../../images/go-to-top.svg').default } />
       </button>
     </Fragment>
   );

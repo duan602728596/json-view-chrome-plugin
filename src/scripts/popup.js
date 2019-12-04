@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
+import style from '../styles/popup.css';
 
 function Popup() {
   const [injectFile, setInjectFile] = useState(false);
@@ -21,8 +22,8 @@ function Popup() {
   }
 
   return (
-    <div className="popup-box">
-      <button className="format-json-btn" type="button" onClick={ handleFormatJsonClick }>格式化JSON</button>
+    <div className={ style.popupBox }>
+      <button className={ style.formatJsonBtn } type="button" onClick={ handleFormatJsonClick }>格式化JSON</button>
     </div>
   );
 }

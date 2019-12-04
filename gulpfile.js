@@ -6,10 +6,12 @@ const yaml = require('gulp-yaml');
 const changed = require('gulp-changed');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
+const postcss = require('gulp-postcss');
 const named = require('vinyl-named');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config');
+const postcssConfig = require('./postcss.config');
 
 const { NODE_ENV } = process.env;
 const isDevelopment = NODE_ENV === 'development';
@@ -56,6 +58,7 @@ function devSassProject() {
     .pipe(changed(files.css))
     .pipe(plumber())
     .pipe(sass().on('error', sass.logError))
+    .pipe(postcss(postcssConfig))
     .pipe(gulp.dest(files.build));
 }
 
@@ -102,6 +105,7 @@ function proSassProject() {
     .pipe(sass({
       outputStyle: 'compressed'
     }).on('error', sass.logError))
+    .pipe(postcss(postcssConfig))
     .pipe(gulp.dest(files.build));
 }
 
@@ -154,19 +158,24 @@ const copyProject = [
 ];
 
 exports.default = isDevelopment
-  ? gulp.series(gulp.parallel(
-    devPugProject,
+  ? gulp.series(
     devSassProject,
-    devWebpackProject,
-    devYamlProject,
-    copyImage,
-    ...copyProject
-  ), devWatch)
-  : gulp.parallel(
-    proPugProject,
+    gulp.parallel(
+      devPugProject,
+      devWebpackProject,
+      devYamlProject,
+      copyImage,
+      ...copyProject
+    ),
+    devWatch
+  )
+  : gulp.series(
     proSassProject,
-    proWebpackProject,
-    proYamlProject,
-    copyImage,
-    ...copyProject
+    gulp.parallel(
+      proPugProject,
+      proWebpackProject,
+      proYamlProject,
+      copyImage,
+      ...copyProject
+    )
   );
